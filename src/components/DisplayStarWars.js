@@ -1,4 +1,5 @@
 import './DisplayStarWars.css'
+
 function DisplayStarWars(props) {  
   return (
     <div className="DisplayStarWars">

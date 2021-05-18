@@ -1,72 +1,79 @@
-import { useState } from 'react';
-import DisplayStarWars from './DisplayStarWars.js';
-
+import { useState } from "react";
+import DisplayStarWars from "./DisplayStarWars.js";
 
 function StarWars() {
-  const [ number, setNumber] = useState('')
-  const [data, setData ] = useState(null)
-  const [item, savedData ] = useState([])
+  const [number, setNumber] = useState("");
+  const [data, setData] = useState(null);
+  const [item, savedData] = useState([]);
 
   async function getData() {
     try {
-      const path = `https://swapi.dev/api/people/${number}/`
-      const res = await fetch(path) 
-      const json = await res.json() 
-      console.log(json)
-      const res2 = await fetch(json.homeworld) 
-      const json2 = await res2.json() 
-      console.log(json2)
+      const path = `https://swapi.dev/api/people/${number}/`;
+      const res = await fetch(path);
+      const json = await res.json();
+      console.log(json);
 
-      const name = json.name
-      const height = json.height
-      const mass = json.mass
-      const eye_color = json.eye_color
-      const hair_color = json.hair_color
+      const res2 = await fetch(json.homeworld);
+      const json2 = await res2.json();
+      console.log(json2);
 
-      const homeworld = json2.name
-      console.log(homeworld)
+      const name = json.name;
+      const height = json.height;
+      const mass = json.mass;
+      const eye_color = json.eye_color;
+      const hair_color = json.hair_color;
 
-      setData({ name, height, mass, eye_color, hair_color, homeworld })
-     } catch(err) {
-       console.log(err.message)
-     }
+      const homeworld = json2.name;
+      console.log(homeworld);
+
+      setData({ name, height, mass, eye_color, hair_color, homeworld });
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
   return (
     <div className="StarWars">
-
-      <form onSubmit={e => {
-        e.preventDefault()
-        getData()
-      }}>
-        <input 
-          value={number}
-          onChange={e => setNumber(e.target.value)}
-          placeholder={'number'}
-        />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          getData();
+        }}
+      >
+        
+          <input
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            placeholder={"number"}
+          />
+        
         <button type="submit">Search</button>
-        <button 
+        <button
           type="button"
-          onClick={() => savedData( item => [...item, data])}
-        >Save</button>
-      {data ? <DisplayStarWars { ...data } /> : null}
-      <div className="savedCharacters">
-        { item.map( (item, i) => {
-          return (
-            <div className="savedCharacter">
-                <h1>Name:  {item.name}</h1>
-                <h1>Height:  {item.height}</h1>
-                <h1>Mass:  {item.mass}</h1>
-                <h1>Hair Color:  {item.hair_color}</h1>
-                <h1>Eye Color:  {item.eye_color}</h1>
-                <h1>Homeworld:  {item.homeworld}</h1>
-            </div>
-          )
-        })}
-      </div>
+          onClick={() => savedData((item) => [...item, data])}
+        >
+          Save
+        </button>
+
+        {data ? <DisplayStarWars {...data} /> : null}
+
+        <div className="allCharacters">
+          {item.map((item, i) => {
+            return (
+              <div className="eachCharacter">
+                <h1>Name: {item.name}</h1>
+                <h1>Height: {item.height}</h1>
+                <h1>Mass: {item.mass}</h1>
+                <h1>Hair Color: {item.hair_color}</h1>
+                <h1>Eye Color: {item.eye_color}</h1>
+                <h1>Homeworld: {item.homeworld}</h1>
+              </div>
+            );
+          })}
+        </div>
       </form>
     </div>
-  )
+  );
 }
 
 export default StarWars;
